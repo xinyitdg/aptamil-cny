@@ -1,0 +1,140 @@
+import { FormEvent, ReactNode, useEffect, useState } from 'react';
+
+import ButtonComponent from '../ButtonComponent';
+import InputField from '../InputField';
+
+interface AuthFormProps {
+  formConfig?: {
+    fields: {
+      name: string;
+      label: string;
+      type: string;
+      placeholder?: string;
+      value?: string;
+      disabled?: boolean;
+      required?: boolean;
+      inputGroupClass?: string;
+      inputClass?: string;
+    }[];
+    btnText?: string;
+    authFormClass?: string;
+  };
+  additionalFields?: { [key: string]: any };
+  children?: ReactNode;
+}
+
+interface FormErrors {
+  [key: string]: string | null;
+}
+
+interface FormValues {
+  [key: string]: string;
+}
+
+function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
+  const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [values, setValues] = useState<FormValues>({});
+  const [isFormValid, setIsFormValid] = useState(false);
+
+  useEffect(() => {
+    if (formConfig?.fields) {
+      const initialErrors: FormErrors = {};
+      const initialValues: FormValues = {};
+      formConfig.fields.forEach(field => {
+        initialErrors[field.name] = null;
+        initialValues[field.name] = field.value || '';
+      });
+      setErrors(initialErrors);
+      setValues(initialValues);
+    }
+  }, [formConfig?.fields]);
+
+  useEffect(() => {
+    if (!formConfig?.fields) return;
+
+    const hasErrors = Object.values(errors).some(error => error !== null);
+    if (hasErrors) {
+      setIsFormValid(false);
+      return;
+    }
+
+    const isValid = formConfig.fields.every(field => {
+      if (field.required) {
+        const fieldValue = values[field.name];
+        return fieldValue && fieldValue.trim().length > 0;
+      }
+      return true;
+    });
+
+    setIsFormValid(isValid);
+  }, [errors, values, formConfig?.fields]);
+
+  const handleFieldChange = (name: string, value: string, error: string | null) => {
+    setValues(prev => ({
+      ...prev,
+      [name]: value,
+    }));
+    setErrors(prev => ({
+      ...prev,
+      [name]: error,
+    }));
+  };
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!isFormValid) return;
+
+    try {
+      setLoading(true);
+      const formData = new FormData(e.target as HTMLFormElement);
+      const data = Object.fromEntries(formData.entries());
+
+      console.log('Additional Fields:', additionalFields);
+      console.log('Form Data:', data);
+
+      setLoading(false);
+    } catch (error) {
+      alert('Error: Failed to submit');
+      console.error(error);
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form
+      id="authForm"
+      onSubmit={handleSubmit}
+      className={`${formConfig?.authFormClass || ''}`}
+    >
+      {formConfig?.fields.map(field => (
+        <InputField
+          key={field.name}
+          id={field.name}
+          name={field.name}
+          label={field.label}
+          type={field.type}
+          value={values[field.name]}
+          disabled={field.disabled} 
+          placeholder={field.placeholder}
+          onFieldChange={handleFieldChange}
+          required={field.required}
+          inputGroupClass={field.inputGroupClass}
+          inputClass={field.inputClass}
+        />
+      ))}
+
+      {children}
+
+      <ButtonComponent
+        buttonText={formConfig?.btnText || 'Submit'}
+        buttonType="submit"
+        loading={loading}
+        disabled={!isFormValid}
+        buttonClass={`button-component`}
+      />
+    </form>
+  );
+}
+
+export default AuthForm;

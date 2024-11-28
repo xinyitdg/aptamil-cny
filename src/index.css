@@ -1,0 +1,72 @@
+/* Don't add anything expect tailwind or other config */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+}
+@media (prefers-color-scheme: light) {
+  :root {
+    /* background-color: #ffffff; */
+  }
+}
+
+.spinner-loading-btn {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  border: 4px solid transparent;
+  border-top-color: white;
+  border-radius: 50%;
+  animation: button-loading-spinner 1s ease infinite;
+}
+
+/* AuthForm */
+.auth-form {
+  margin: 2%;
+}
+
+/* InputField */
+.input-group {
+  width: 100%;
+}
+
+.input-field {
+  width: 100%;
+  border: 1px solid black;
+  padding: 5px;
+}
+
+/* ButtonComponent */
+.button-component {
+  padding: 5px 20px;
+  margin-top: 10px;
+}
+
+.disabled-button {
+  color: grey;
+  background: lightgrey;
+  transition-duration: 200ms;
+  cursor: not-allowed;
+}
+
+.enabled-button {
+  color: white;
+  background: blue;
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+
+.enabled-button:hover {
+  background: #0033ab;
+}
+
+@keyframes button-loading-spinner {
+  from {
+    transform: rotate(0turn);
+  }
+
+  to {
+    transform: rotate(1turn);
+  }
+}
