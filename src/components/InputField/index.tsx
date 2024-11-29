@@ -8,13 +8,15 @@ interface AuthInputFieldType {
   type: string;
   id: string;
   name: string;
-  label: string;
+  label?: string;
   placeholder?: string;
   value?: string;
   disabled?: boolean;
   required?: boolean;
   inputGroupClass?: string;
+  inputDivClass?: string;
   inputClass?: string;
+  phonePrefix?: boolean;
   onFieldChange: (name: string, value: string, error: string | null) => void;
 }
 
@@ -28,7 +30,9 @@ function InputField({
   disabled,
   required,
   inputGroupClass,
+  inputDivClass,
   inputClass,
+  phonePrefix = false,
   onFieldChange,
 }: AuthInputFieldType) {
   const [error, setError] = useState<string | null>(null);
@@ -54,18 +58,21 @@ function InputField({
     <div className={`${inputGroupClass || ''}`}>
       <label>{label}</label>
       {required && <span className="text-red-500">*</span>}
-      <Input
-        required={required}
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-        disabled={disabled}
-        placeholder={placeholder}
-        onChange={handleChange}
-        className={`${error ? 'border-red-600' : 'border-black'} ${inputClass || ''}`}
-      />
-      <span className="text-red-600">{error}</span>
+      <div className={`${inputDivClass || ''}`}>
+        {phonePrefix && <div className="phone-prefix">+60</div>}
+        <Input
+          required={required}
+          type={type}
+          id={id}
+          name={name}
+          value={value}
+          disabled={disabled}
+          placeholder={placeholder}
+          onChange={handleChange}
+          className={`${error ? 'border-red-600' : 'border-black'} ${inputClass || ''}`}
+        />
+      </div>
+      <div className="text-white flex justify-center mt-2">{error}</div>
     </div>
   );
 }

@@ -1,6 +1,11 @@
-/* Only use this if design team provide a custom fonts */
+/* font.css */
+@font-face {
+  font-family: 'Gotham Book';
+  src: url('/fonts/Gotham Book.otf') format('opentype'); /* Adjust the path as needed */
+  font-weight: normal;
+  font-style: normal;
+}
 
-/* @font-face {
-  font-family: 'Univers 67 Condensed Bold';
-  src: url('Univers-67-Condensed-Bold.otf') format('otf');
-} */
+body {
+  font-family: 'Gotham Book', sans-serif; /* Set default font family */
+}

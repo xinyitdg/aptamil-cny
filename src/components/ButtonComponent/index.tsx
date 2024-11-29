@@ -23,7 +23,7 @@ function ButtonComponent({
   return (
     <Button
       type={buttonType}
-      className={`${disabled || loading ? 'disabled-button' : 'enabled-button'} ${buttonClass || ''}`}
+      className={`${buttonClass || ''}`}
       disabled={loading || disabled}
       onClick={() => (buttonFunction ? buttonFunction() : null)}
     >

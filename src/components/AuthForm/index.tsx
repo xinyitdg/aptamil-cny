@@ -7,14 +7,16 @@ interface AuthFormProps {
   formConfig?: {
     fields: {
       name: string;
-      label: string;
+      label?: string;
       type: string;
       placeholder?: string;
       value?: string;
       disabled?: boolean;
       required?: boolean;
       inputGroupClass?: string;
+      inputDivClass?: string;
       inputClass?: string;
+      phonePrefix?: boolean;
     }[];
     btnText?: string;
     authFormClass?: string;
@@ -115,24 +117,28 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
           label={field.label}
           type={field.type}
           value={values[field.name]}
-          disabled={field.disabled} 
+          disabled={field.disabled}
           placeholder={field.placeholder}
           onFieldChange={handleFieldChange}
           required={field.required}
           inputGroupClass={field.inputGroupClass}
+          inputDivClass={field.inputDivClass}
           inputClass={field.inputClass}
+          phonePrefix={field.phonePrefix}
         />
       ))}
 
       {children}
 
-      <ButtonComponent
-        buttonText={formConfig?.btnText || 'Submit'}
-        buttonType="submit"
-        loading={loading}
-        disabled={!isFormValid}
-        buttonClass={`button-component`}
-      />
+      <div className="authform-bottom">
+        <ButtonComponent
+          buttonText={formConfig?.btnText || 'Submit'}
+          buttonType="submit"
+          loading={loading}
+          disabled={!isFormValid}
+          buttonClass="button-component"
+        />
+      </div>
     </form>
   );
 }

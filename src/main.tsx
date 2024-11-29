@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import './i18n/config';
 import './index.css';
+import './assets/fonts/font.css';
 import Router from './routes/Router';
 import { store } from './store';
 

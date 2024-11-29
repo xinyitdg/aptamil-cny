@@ -16,7 +16,7 @@ export const checkInputFormat = (data: AuthData) => {
     }
   }
   if (phone) {
-    const numberRegex = /^(01)[0-46-9]([0-9]){7,8}$/;
+    const numberRegex = /^(1)[0-46-9]([0-9]){7,8}$/;
     if (!numberRegex.test(phone)) {
       field = 'number';
       message = 'You have entered an invalid phone number';
