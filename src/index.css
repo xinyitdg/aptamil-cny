@@ -8,7 +8,7 @@
 }
 @media (prefers-color-scheme: light) {
   :root {
-    /* background-color: #ffffff; */
+    background-color: #ffffff;
   }
 }
 
@@ -37,27 +37,21 @@ body {
 }
 
 .login-bottom {
-  top: 44vh;
+  top: 40vh;
 }
 
-.authform-bottom {
+.authform-bottom,
+.signup-authform {
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   position: relative;
   top: 5vh;
-  margin-top: 10vh;
 }
 
-@media screen and (max-height: 700px) {
-  .login-bottom {
-    top: 38vh;
-  }
-
-  .authform-bottom {
-    margin-top: 4vh;
-  }
+.authform-bottom {
+  margin-top: 10vh;
 }
 
 .spinner-loading-btn {
@@ -94,6 +88,11 @@ body {
 /* InputField */
 .input-group {
   width: 100%;
+}
+
+.input-signup {
+  width: 100%;
+  margin-top: 1rem;
 }
 
 .input-field {
@@ -138,6 +137,16 @@ body {
   color: white;
   font-size: 16px;
   margin-top: 10px;
+}
+
+@media screen and (max-height: 700px) {
+  .login-bottom {
+    top: 38vh;
+  }
+
+  .authform-bottom {
+    margin-top: 4vh;
+  }
 }
 
 @keyframes button-loading-spinner {

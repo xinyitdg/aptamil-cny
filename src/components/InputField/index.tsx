@@ -57,7 +57,6 @@ function InputField({
   return (
     <div className={`${inputGroupClass || ''}`}>
       <label>{label}</label>
-      {required && <span className="text-red-500">*</span>}
       <div className={`${inputDivClass || ''}`}>
         {phonePrefix && <div className="phone-prefix">+60</div>}
         <Input
@@ -72,7 +71,7 @@ function InputField({
           className={`${error ? 'border-red-600' : 'border-black'} ${inputClass || ''}`}
         />
       </div>
-      <div className="text-white flex justify-center mt-2">{error}</div>
+      <div className="text-white flex justify-center">{error}</div>
     </div>
   );
 }
