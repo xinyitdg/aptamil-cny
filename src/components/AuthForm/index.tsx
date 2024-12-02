@@ -1,7 +1,8 @@
-import { FormEvent, ReactNode, useEffect, useState } from 'react';
+import React, { FormEvent, ReactNode, useEffect, useState } from 'react';
 
 import ButtonComponent from '../ButtonComponent';
 import InputField from '../InputField';
+import Checkbox from '../../components/Checkbox';
 
 interface AuthFormProps {
   formConfig?: {
@@ -20,6 +21,7 @@ interface AuthFormProps {
     }[];
     btnText?: string;
     authFormClass?: string;
+    bottomSectionClass?: string; // New optional prop
   };
   additionalFields?: { [key: string]: any };
   children?: ReactNode;
@@ -69,8 +71,17 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
       return true;
     });
 
-    setIsFormValid(isValid);
-  }, [errors, values, formConfig?.fields]);
+    // If a checkbox is provided as a child, ensure it's checked
+    const checkboxChild = React.Children.toArray(children).find(
+      child => React.isValidElement(child) && child.type === Checkbox
+    );
+
+    const isCheckboxValid = checkboxChild 
+      ? (checkboxChild as React.ReactElement).props.initialChecked 
+      : true;
+
+    setIsFormValid(isValid && isCheckboxValid);
+  }, [errors, values, formConfig?.fields, children]);
 
   const handleFieldChange = (name: string, value: string, error: string | null) => {
     setValues(prev => ({
@@ -103,6 +114,8 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
     }
   };
 
+  const bottomSectionClass = formConfig?.bottomSectionClass || 'authform-bottom';
+
   return (
     <form
       id="authForm"
@@ -130,7 +143,7 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
 
       {children}
 
-      <div className="authform-bottom">
+      <div className={bottomSectionClass}>
         <ButtonComponent
           buttonText={formConfig?.btnText || 'Submit'}
           buttonType="submit"
