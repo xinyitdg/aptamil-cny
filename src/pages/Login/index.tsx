@@ -56,7 +56,7 @@ const Login: React.FC = () => {
           />
         </div>
         <div className="footer-div">
-          <p className="text-white text-center relative z-20 pt-[180px]">
+          <p className="text-white text-center relative z-20 pt-[190px]">
             Not registered yet? Sign up
           </p>
         </div>

@@ -114,8 +114,6 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
     }
   };
 
-  const bottomSectionClass = formConfig?.bottomSectionClass || 'authform-bottom';
-
   return (
     <form
       id="authForm"
@@ -143,7 +141,7 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
 
       {children}
 
-      <div className={bottomSectionClass}>
+      <div className="authform-bottom">
         <ButtonComponent
           buttonText={formConfig?.btnText || 'Submit'}
           buttonType="submit"

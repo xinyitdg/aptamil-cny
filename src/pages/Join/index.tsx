@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import cnyBody from '../../assets/images/cny-body.png';
 import cnyTop from '../../assets/images/cny-top.png';
@@ -13,6 +13,7 @@ import Header from '../../components/Header';
 
 const Join: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
   return (
@@ -31,7 +32,7 @@ const Join: React.FC = () => {
           className="absolute w-full min-h-screen top-0 left-0"
         />
 
-        <div className="pt-[110px] flex flex-col items-center justify-between relative w-[90%] mx-auto">
+        <div className="pt-[110px] flex flex-col items-center justify-between relative w-[80%] mx-auto">
           <p className="heading-3">HOW TO JOIN</p>
           <img src={howToJoin}></img>
           <p className="heading-3">PRIZES</p>
@@ -50,11 +51,12 @@ const Join: React.FC = () => {
           </label>
         </div>
         <div className="footer-div">
-          <div className="absolute z-40 w-full mx-auto text-center top-[130px]">
+          <div className="absolute z-40 w-full mx-auto text-center top-[140px]">
             <ButtonComponent
               buttonText="LET'S START SSS-LIDING!"
               buttonType="submit"
               buttonClass="button-component"
+              buttonFunction={() => navigate('/home')}
             />
             <p className="text-white pt-1">*T&C apply.</p>
           </div>
