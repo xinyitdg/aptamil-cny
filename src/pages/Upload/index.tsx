@@ -4,49 +4,72 @@ import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import successLogo from '../../assets/images/svg/successLogo.svg';
 import uploadLogo from '../../assets/images/svg/uploadLogo.svg';
+import trashLogo from '../../assets/images/svg/trashLogo.svg';
 import ButtonComponent from '../../components/ButtonComponent';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
+interface FileWithPreview {
+  file: File;
+  preview: string;
+}
+
 const Upload: React.FC = () => {
-  const [imageFile, setImageFile] = useState<File | null>(null);
-  const [imageUrl, setImageUrl] = useState<string>('');
-  const [pdfUrl, setPdfUrl] = useState<string>('');
+  const [files, setFiles] = useState<FileWithPreview[]>([]);
   const [error, setError] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const handleDisplayImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      setError('');
-      setImageUrl('');
-      setPdfUrl('');
-
-      const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
-      if (!allowedTypes.includes(file.type)) {
-        setError('Unsupported file type. Please upload PDF, JPEG, JPG, or PNG.');
-        return;
-      }
-
-      setImageFile(file);
-
-      const reader = new FileReader();
-      reader.onload = res => {
-        if (file.type.startsWith('image/')) {
-          setImageUrl(res.target?.result as string);
-        } else if (file.type === 'application/pdf') {
-          setPdfUrl(res.target?.result as string);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
+  const formatFileSize = (bytes: number): string => {
+    if (bytes === 0) return '0 Bytes';
+    const k = 1024;
+    const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+    const i = Math.floor(Math.log(bytes) / Math.log(k));
+    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
   };
 
-  const handleSubmitReceipt = async () => {
-    if (!imageFile) {
-      setError('Please select a file first.');
+  const handleDisplayImage = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files || []);
+    
+    if (selectedFiles.length === 0) return;
+
+    setError('');
+    
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
+    const invalidFiles = selectedFiles.filter(file => !allowedTypes.includes(file.type));
+    
+    if (invalidFiles.length > 0) {
+      setError('Some files were not added. Only PDF, JPEG, JPG, or PNG files are supported.');
+      return;
+    }
+
+    const processFile = (file: File): Promise<FileWithPreview> => {
+      return new Promise((resolve) => {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          resolve({
+            file,
+            preview: e.target?.result as string
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    };
+
+    Promise.all(selectedFiles.map(processFile))
+      .then(newFiles => {
+        setFiles(prevFiles => [...prevFiles, ...newFiles]);
+      });
+  };
+
+  const removeFile = (index: number) => {
+    setFiles(prevFiles => prevFiles.filter((_, i) => i !== index));
+  };
+
+  const handleSubmitReceipts = async () => {
+    if (files.length === 0) {
+      setError('Please select at least one file.');
       return;
     }
 
@@ -55,10 +78,14 @@ const Upload: React.FC = () => {
 
     try {
       const formData = new FormData();
-      formData.append('receipt', imageFile);
-      setImageFile(null);
-      setImageUrl('');
-      setPdfUrl('');
+      files.forEach((fileData, index) => {
+        formData.append(`receipt${index}`, fileData.file);
+      });
+      
+      // Your API call here
+      // await uploadFiles(formData);
+      
+      setFiles([]);
     } catch (uploadError) {
       setError('Upload failed. Please try again.');
       console.error(uploadError);
@@ -88,8 +115,8 @@ const Upload: React.FC = () => {
         />
 
         <div className="pt-[110px] flex flex-col items-center justify-between relative w-[80%] mx-auto">
-          <p className="text-white text-[26px] font-bold pt-3">Upload Receipt</p>
-          <p className="heading-2 text-center">Upload a photo of your receipt</p>
+          <p className="text-white text-[26px] font-bold pt-3">Upload Receipts</p>
+          <p className="heading-2 text-center">Upload photos of your receipts</p>
 
           <input
             type="file"
@@ -97,40 +124,78 @@ const Upload: React.FC = () => {
             onChange={handleDisplayImage}
             accept="image/jpeg,image/jpg,image/png,application/pdf"
             className="hidden"
+            multiple
           />
 
-          {imageFile ? (
-            <div className="w-full mt-4">
-              {imageUrl && (
-                <img
-                  src={imageUrl}
-                  alt="Receipt Preview"
-                  className="w-full max-h-[300px] object-contain rounded-[10px]"
-                />
-              )}
-              {pdfUrl && (
-                <iframe
-                  src={pdfUrl}
-                  title="PDF Preview"
-                  className="w-full h-[300px] rounded-[10px]"
-                />
+          <div
+            onClick={triggerFileInput}
+            className="w-full h-[150px] mt-4 border-dashed border-2 rounded-[10px] content-center text-center cursor-pointer"
+            style={{ backgroundColor: '#7D1A21' }}
+          >
+            <img src={uploadLogo} className="mx-auto" alt="Upload" />
+            <p className="my-2 mx-auto text-white font-bold underline text-[16px]">
+              Click to Upload
+            </p>
+            <p className="mx-auto text-white text-[12px]">
+              *Supported formats: PDF, JPEG, JPG, PNG only
+            </p>
+          </div>
+
+          {files.map((fileData, index) => (
+            <div key={index} className="w-full mt-4">
+              {fileData.file.type.startsWith('image/') ? (
+                <div className="bg-white text-left mt-2 rounded-[10px] flex flex-row items-center">
+                  <div className="w-[20%] h-[80px] bg-gray-200 flex items-center justify-center p-2 rounded-l-[10px]">
+                    <img
+                      src={fileData.preview}
+                      alt="Receipt Preview"
+                      className="w-auto h-full object-contain"
+                    />
+                  </div>
+                  <div className="flex flex-col p-2 flex-grow justify-center">
+                    <p className="text-black font-bold">{fileData.file.name}</p>
+                    <p className="text-gray-500 mt-1">
+                      {formatFileSize(fileData.file.size)}
+                    </p>
+                  </div>
+                  <div className="pr-4 pl-2">
+                    <button 
+                      onClick={() => removeFile(index)}
+                      className="p-2 hover:opacity-70"
+                    >
+                      <img src={trashLogo} alt="Delete" className="w-5 h-5" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="w-full">
+                  <div className="bg-white text-left mt-2 rounded-[10px] flex flex-row items-center">
+                    <div className="w-[20%] h-[80px] bg-gray-200 flex items-center justify-center p-2 rounded-l-[10px]">
+                      <iframe
+                        src={fileData.preview}
+                        title="PDF Preview"
+                        className="w-full h-full"
+                      />
+                    </div>
+                    <div className="flex flex-col p-2 flex-grow justify-center">
+                      <p className="text-black font-bold">{fileData.file.name}</p>
+                      <p className="text-gray-500 mt-1">
+                        {formatFileSize(fileData.file.size)}
+                      </p>
+                    </div>
+                    <div className="pr-4 pl-2">
+                      <button 
+                        onClick={() => removeFile(index)}
+                        className="p-2 hover:opacity-70"
+                      >
+                        <img src={trashLogo} alt="Delete" className="w-5 h-5" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
               )}
             </div>
-          ) : (
-            <div
-              onClick={triggerFileInput}
-              className="w-full h-[150px] mt-4 border-dashed border-2 rounded-[10px] content-center text-center cursor-pointer"
-              style={{ backgroundColor: '#7D1A21' }}
-            >
-              <img src={uploadLogo} className="mx-auto" alt="Upload" />
-              <p className="my-2 mx-auto text-white font-bold underline text-[16px]">
-                Click to Upload
-              </p>
-              <p className="mx-auto text-white text-[12px]">
-                *Supported image format: PDF, JPEG, JPG, PNG only
-              </p>
-            </div>
-          )}
+          ))}
 
           {error && <p className="text-red-500 mt-2 text-center">{error}</p>}
         </div>
@@ -138,15 +203,15 @@ const Upload: React.FC = () => {
         <div className="footer-div">
           <div className="absolute z-40 w-full mx-auto text-center top-[140px]">
             <ButtonComponent
-              buttonText="SUBMIT RECEIPT"
+              buttonText="SUBMIT RECEIPTS"
               buttonType="submit"
               buttonClass="button-component"
-              buttonFunction={handleSubmitReceipt}
+              buttonFunction={handleSubmitReceipts}
               modal={{
                 logo: successLogo,
                 title: 'Successful!',
                 message:
-                  'Your receipt has been successfully uploaded and will be validated within 5 working days.',
+                  'Your receipts have been successfully uploaded and will be validated within 5 working days.',
                 modalButtonText: 'OK',
                 modalButtonClass: 'bg-[#02BC7D] hover:bg-green-700',
               }}
