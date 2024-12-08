@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { useLocation } from 'react-router-dom';
 
-import cnyBody from '../../assets/images/cny-body.png';
+import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import AuthForm from '../../components/AuthForm';
 import Checkbox from '../../components/Checkbox';
@@ -33,9 +33,8 @@ const Register: React.FC = () => {
         />
 
         <div className="pt-[110px] flex flex-col items-center justify-between relative">
-          <p className="heading-1 border-b-[3px] border-[#FFDB20] py-2.5 px-[50px]">
-            Sign Up
-          </p>
+          <p className="heading-1 py-2.5 px-[50px]">Sign Up</p>
+          <p className="border-b-[3px] border-[#FFDB20] w-[192px] mx-auto"></p>
           <AuthForm
             formConfig={{
               fields: [

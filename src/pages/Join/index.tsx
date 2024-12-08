@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
-
-import cnyBody from '../../assets/images/cny-body.png';
+import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import grandPrizes from '../../assets/images/grand-prizes.png';
 import guaranteedRewards from '../../assets/images/guaranteed-rewards.png';
@@ -12,8 +10,6 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 const Join: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
   return (
@@ -45,9 +41,7 @@ const Join: React.FC = () => {
               className={`mr-2 scale-[1.2] h-6 cursor-pointer`}
               onChange={() => setIsChecked(!isChecked)}
             />
-            <p className="relative z-40 text-white text-center">
-              Don't show this again
-            </p>
+            <p className="relative z-40 text-white text-center">Don't show this again</p>
           </label>
         </div>
         <div className="footer-div">
@@ -56,7 +50,7 @@ const Join: React.FC = () => {
               buttonText="LET'S START SSS-LIDING!"
               buttonType="submit"
               buttonClass="button-component"
-              buttonFunction={() => navigate('/home')}
+              navigateTo='/home'
             />
             <p className="text-white pt-1">*T&C apply.</p>
           </div>

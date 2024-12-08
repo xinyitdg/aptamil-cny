@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
 
-import cnyBody from '../../assets/images/cny-body.png';
+import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import AuthForm from '../../components/AuthForm';
 import Header from '../../components/Header';
@@ -25,9 +25,8 @@ const Login: React.FC = () => {
         />
 
         <div className="pt-[110px] flex flex-col items-center justify-between relative">
-          <p className="heading-1 border-b-[3px] border-[#FFDB20] py-2.5 px-[50px]">
-            Log In
-          </p>
+          <p className="heading-1 py-2.5 px-[50px]">Log In</p>
+          <p className="border-b-[3px] border-[#FFDB20] w-[192px] mx-auto"></p>
           <p className="heading-2 p-4 text-center leading-none">
             Key in your registered mobile
             <br />
@@ -56,7 +55,7 @@ const Login: React.FC = () => {
           />
         </div>
         <div className="footer-div">
-          <p className="text-white text-center relative z-20 pt-[190px]">
+          <p className="text-white text-center relative z-20 pt-[195px]">
             Not registered yet? Sign up
           </p>
         </div>

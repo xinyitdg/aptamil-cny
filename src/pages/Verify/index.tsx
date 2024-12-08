@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import OtpInput from 'react-otp-input';
 
-import cnyBody from '../../assets/images/cny-body.png';
+import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import ButtonComponent from '../../components/ButtonComponent';
 import Header from '../../components/Header';
@@ -37,9 +37,8 @@ const Verify: React.FC = () => {
         />
 
         <div className="pt-[110px] flex flex-col items-center justify-between relative w-[90%] mx-auto">
-          <p className="heading-1 border-b-[3px] border-[#FFDB20] py-2.5 px-[50px]">
-            OTP Verication
-          </p>
+          <p className="heading-1 py-2.5 px-[50px]">OTP Verication</p>
+          <p className="border-b-[3px] border-[#FFDB20] w-[192px] mx-auto"></p>
           <p className="heading-2 p-4 text-center">
             Please enter the verification code sent to
             <br />

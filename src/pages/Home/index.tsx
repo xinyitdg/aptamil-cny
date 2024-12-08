@@ -1,8 +1,4 @@
-import { useState } from 'react';
-
-import { useLocation } from 'react-router-dom';
-
-import cnyBody from '../../assets/images/cny-body.png';
+import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import matchWin from '../../assets/images/match-and-win.png';
 import playRedeem from '../../assets/images/play-and-redeem.png';
@@ -11,7 +7,6 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 const Home: React.FC = () => {
-  const location = useLocation();
 
   return (
     <div id="page" className="overflow-y-auto">
@@ -64,6 +59,7 @@ const Home: React.FC = () => {
               buttonText="UPLOAD RECEIPT"
               buttonType="submit"
               buttonClass="button-component"
+              navigateTo="/upload"
             />
           </div>
           <div className="grid flex-grid grid-cols-2 gap-2 w-[90%] mx-auto">
