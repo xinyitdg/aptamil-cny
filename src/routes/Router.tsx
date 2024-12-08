@@ -8,6 +8,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Verify from '../pages/Verify';
 import Home from '../pages/Home';
+import Upload from '../pages/Upload';
 
 const Router: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const Router: React.FC = () => {
         <Route path={'/register'} element={<Register />} />
         <Route path={'/join'} element={<Join />} />
         <Route path={'/home'} element={<Home />} />
+        <Route path={'/upload'} element={<Upload />} />
       </Routes>
     </BrowserRouter>
   );
