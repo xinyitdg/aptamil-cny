@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import { useLocation, useNavigate } from 'react-router-dom';
-
 import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import grandPrizes from '../../assets/images/grand-prizes.png';
@@ -12,8 +10,6 @@ import Footer from '../../components/Footer';
 import Header from '../../components/Header';
 
 const Join: React.FC = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
   const [isChecked, setIsChecked] = useState(false);
 
   return (
