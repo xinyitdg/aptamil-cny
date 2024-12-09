@@ -3,8 +3,8 @@ import { useRef, useState } from 'react';
 import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
 import successLogo from '../../assets/images/svg/successLogo.svg';
-import uploadLogo from '../../assets/images/svg/uploadLogo.svg';
 import trashLogo from '../../assets/images/svg/trashLogo.svg';
+import uploadLogo from '../../assets/images/svg/uploadLogo.svg';
 import ButtonComponent from '../../components/ButtonComponent';
 import Footer from '../../components/Footer';
 import Header from '../../components/Header';
@@ -31,36 +31,37 @@ const Upload: React.FC = () => {
 
   const handleDisplayImage = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files || []);
-    
+
     if (selectedFiles.length === 0) return;
 
     setError('');
-    
+
     const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'application/pdf'];
     const invalidFiles = selectedFiles.filter(file => !allowedTypes.includes(file.type));
-    
+
     if (invalidFiles.length > 0) {
-      setError('Some files were not added. Only PDF, JPEG, JPG, or PNG files are supported.');
+      setError(
+        'Some files were not added. Only PDF, JPEG, JPG, or PNG files are supported.'
+      );
       return;
     }
 
     const processFile = (file: File): Promise<FileWithPreview> => {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         const reader = new FileReader();
-        reader.onload = (e) => {
+        reader.onload = e => {
           resolve({
             file,
-            preview: e.target?.result as string
+            preview: e.target?.result as string,
           });
         };
         reader.readAsDataURL(file);
       });
     };
 
-    Promise.all(selectedFiles.map(processFile))
-      .then(newFiles => {
-        setFiles(prevFiles => [...prevFiles, ...newFiles]);
-      });
+    Promise.all(selectedFiles.map(processFile)).then(newFiles => {
+      setFiles(prevFiles => [...prevFiles, ...newFiles]);
+    });
   };
 
   const removeFile = (index: number) => {
@@ -81,10 +82,10 @@ const Upload: React.FC = () => {
       files.forEach((fileData, index) => {
         formData.append(`receipt${index}`, fileData.file);
       });
-      
+
       // Your API call here
       // await uploadFiles(formData);
-      
+
       setFiles([]);
     } catch (uploadError) {
       setError('Upload failed. Please try again.');
@@ -159,7 +160,7 @@ const Upload: React.FC = () => {
                     </p>
                   </div>
                   <div className="pr-4 pl-2">
-                    <button 
+                    <button
                       onClick={() => removeFile(index)}
                       className="p-2 hover:opacity-70"
                     >
@@ -184,7 +185,7 @@ const Upload: React.FC = () => {
                       </p>
                     </div>
                     <div className="pr-4 pl-2">
-                      <button 
+                      <button
                         onClick={() => removeFile(index)}
                         className="p-2 hover:opacity-70"
                       >
@@ -210,8 +211,7 @@ const Upload: React.FC = () => {
               modal={{
                 logo: successLogo,
                 title: 'Successful!',
-                message:
-                  'Your receipts have been successfully uploaded and will be validated within 5 working days.',
+                body: 'Your receipts have been successfully uploaded and will be validated within 5 working days.',
                 modalButtonText: 'OK',
                 modalButtonClass: 'bg-[#02BC7D] hover:bg-green-700',
               }}

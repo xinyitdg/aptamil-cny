@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom';
 
 import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
+import successLogo from '../../assets/images/svg/successLogo.svg';
 import AuthForm from '../../components/AuthForm';
 import Checkbox from '../../components/Checkbox';
 import Header from '../../components/Header';
@@ -11,9 +12,14 @@ import Header from '../../components/Header';
 const Register: React.FC = () => {
   const location = useLocation();
   const [termsChecked, setTermsChecked] = useState(false);
+  const [marketingChecked, setMarketingChecked] = useState(false);
 
   const handleTermsChange = (checked: boolean) => {
     setTermsChecked(checked);
+  };
+
+  const handleMarketingChange = (checked: boolean) => {
+    setMarketingChecked(checked);
   };
 
   return (
@@ -57,12 +63,29 @@ const Register: React.FC = () => {
                   required: true,
                 },
               ],
-              btnText: 'REGISTER',
               authFormClass: 'auth-form',
             }}
             additionalFields={{
               path: location.pathname,
               params: location.search,
+            }}
+            buttonText="REGISTER"
+            checkboxStates={{
+              terms: termsChecked,
+              marketing: marketingChecked,
+            }}
+            modal={{
+              logo: successLogo,
+              title: 'Successful!',
+              body: (
+                <>
+                  Welcome! You're now part of our AptamilTM KID Mini Program
+                  <br />
+                  Stay tuned for more exciting rewards!
+                </>
+              ),
+              modalButtonText: 'OK',
+              modalButtonClass: 'bg-[#02BC7D] hover:bg-green-700',
             }}
           >
             <div className="mb-4 w-full">
@@ -84,7 +107,7 @@ const Register: React.FC = () => {
                     </a>
                   </div>
                 }
-                initialChecked={termsChecked}
+                checked={termsChecked}
                 onChange={handleTermsChange}
               />
               <Checkbox
@@ -97,8 +120,8 @@ const Register: React.FC = () => {
                     </span>
                   </div>
                 }
-                initialChecked={termsChecked}
-                onChange={handleTermsChange}
+                checked={marketingChecked}
+                onChange={handleMarketingChange}
               />
             </div>
           </AuthForm>
