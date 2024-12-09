@@ -1,8 +1,9 @@
 import React, { FormEvent, ReactNode, useEffect, useState } from 'react';
 
+import { useNavigate } from 'react-router-dom';
+
 import ButtonComponent from '../ButtonComponent';
 import InputField from '../InputField';
-import Checkbox from '../../components/Checkbox';
 
 interface AuthFormProps {
   formConfig?: {
@@ -19,12 +20,24 @@ interface AuthFormProps {
       inputClass?: string;
       phonePrefix?: boolean;
     }[];
-    btnText?: string;
     authFormClass?: string;
-    bottomSectionClass?: string; // New optional prop
   };
-  additionalFields?: { [key: string]: any };
+  additionalFields?: Record<string, any>;
   children?: ReactNode;
+  buttonText?: string;
+  buttonClass?: string;
+  checkboxStates?: {
+    [key: string]: boolean;
+  };
+  buttonFunction?: () => void;
+  navigateTo?: string;
+  modal?: {
+    logo: string;
+    title: string;
+    body: string | React.ReactNode;
+    modalButtonText: string;
+    modalButtonClass: string;
+  };
 }
 
 interface FormErrors {
@@ -35,11 +48,22 @@ interface FormValues {
   [key: string]: string;
 }
 
-function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
+function AuthForm({
+  formConfig,
+  additionalFields,
+  children,
+  buttonText,
+  buttonClass,
+  checkboxStates,
+  buttonFunction,
+  navigateTo,
+  modal,
+}: AuthFormProps) {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<FormErrors>({});
   const [values, setValues] = useState<FormValues>({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (formConfig?.fields) {
@@ -52,7 +76,7 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
       setErrors(initialErrors);
       setValues(initialValues);
     }
-  }, [formConfig?.fields]);
+  }, []);
 
   useEffect(() => {
     if (!formConfig?.fields) return;
@@ -71,17 +95,12 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
       return true;
     });
 
-    // If a checkbox is provided as a child, ensure it's checked
-    const checkboxChild = React.Children.toArray(children).find(
-      child => React.isValidElement(child) && child.type === Checkbox
-    );
+    const areCheckboxesValid = checkboxStates
+      ? checkboxStates.terms === true && checkboxStates.marketing === true
+      : false;
 
-    const isCheckboxValid = checkboxChild 
-      ? (checkboxChild as React.ReactElement).props.initialChecked 
-      : true;
-
-    setIsFormValid(isValid && isCheckboxValid);
-  }, [errors, values, formConfig?.fields, children]);
+    setIsFormValid(isValid && areCheckboxesValid);
+  }, [errors, values, formConfig?.fields, checkboxStates]);
 
   const handleFieldChange = (name: string, value: string, error: string | null) => {
     setValues(prev => ({
@@ -101,10 +120,20 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
     try {
       setLoading(true);
       const formData = new FormData(e.target as HTMLFormElement);
-      const data = Object.fromEntries(formData.entries());
+      const data = {
+        ...Object.fromEntries(formData.entries()),
+        ...additionalFields,
+      };
 
-      console.log('Additional Fields:', additionalFields);
-      console.log('Form Data:', data);
+      // Execute the custom button function if provided
+      if (buttonFunction) {
+        await buttonFunction();
+      }
+
+      // Handle navigation if specified
+      if (navigateTo) {
+        navigate(navigateTo);
+      }
 
       setLoading(false);
     } catch (error) {
@@ -114,13 +143,13 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
     }
   };
 
+  if (!formConfig?.fields) {
+    return null;
+  }
+
   return (
-    <form
-      id="authForm"
-      onSubmit={handleSubmit}
-      className={`${formConfig?.authFormClass || ''}`}
-    >
-      {formConfig?.fields.map(field => (
+    <form id="authForm" onSubmit={handleSubmit} className={formConfig.authFormClass}>
+      {formConfig.fields.map(field => (
         <InputField
           key={field.name}
           id={field.name}
@@ -143,11 +172,14 @@ function AuthForm({ formConfig, additionalFields, children }: AuthFormProps) {
 
       <div className="authform-bottom">
         <ButtonComponent
-          buttonText={formConfig?.btnText || 'Submit'}
+          buttonText={buttonText || 'Submit'}
           buttonType="submit"
           loading={loading}
           disabled={!isFormValid}
-          buttonClass="button-component"
+          buttonClass={buttonClass || 'button-component'}
+          buttonFunction={buttonFunction}
+          navigateTo={navigateTo}
+          modal={modal}
         />
       </div>
     </form>

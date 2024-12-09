@@ -18,7 +18,7 @@ interface ButtonComponentProps {
   modal?: {
     logo: string;
     title: string;
-    message: string;
+    body: string | React.ReactNode;
     modalButtonText: string;
     modalButtonClass: string;
   };
@@ -69,7 +69,7 @@ function ButtonComponent({
         <Modal
           logo={modal.logo}
           title={modal.title}
-          message={modal.message}
+          body={modal.body}
           buttonText={modal.modalButtonText}
           buttonClass={modal.modalButtonClass}
           onClose={handleModalClose}
