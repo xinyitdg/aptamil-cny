@@ -177,6 +177,23 @@ body {
   border-radius: 40px;
 }
 
+/* Login modal */
+.login-slider {
+  background-image: url(/src/assets/images/login-modal.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+  align-items: center;
+  justify-content: center;
+  height: 90vh;
+  width: 100%;
+}
+
+.login-modal-button {
+  background: linear-gradient(90deg, #D8B564 0%, #FDEC91 22%, #DBB663 68%, #FAF2BD 100%);
+  box-shadow:0 0 10px rgba(0, 0, 0, 0.5);
+}
+
 .register-text {
   color: white;
   font-size: 16px;
