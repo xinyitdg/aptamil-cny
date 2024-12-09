@@ -1,15 +1,65 @@
+import React, { useState } from 'react';
+
 import { useLocation } from 'react-router-dom';
 
 import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
+import loginSlider1 from '../../assets/images/login-slider-1.png';
+import loginSlider2 from '../../assets/images/login-slider-2.png';
+import loginSlider3 from '../../assets/images/login-slider-3.png';
 import AuthForm from '../../components/AuthForm';
 import Header from '../../components/Header';
+import LoginModal from '../../components/LoginModal';
 
 const Login: React.FC = () => {
   const location = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(true);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+  };
 
   return (
     <div id="page" className="overflow-y-auto">
+      {isModalOpen && (
+        <LoginModal
+          slides={[
+            {
+              image: loginSlider1,
+              text: (
+                <>
+                  Welcome! Let's Sss-lide your way into
+                  <strong> Strength and Smartness </strong>
+                  this Chinese New Year with <strong>AptamilTM KID!</strong>
+                </>
+              ),
+              termsText: true,
+            },
+            {
+              image: loginSlider2,
+              text: (
+                <>
+                  Get <strong>Guaranteed Rewards*</strong> up to <strong>RM88.88</strong>{' '}
+                  by purchasing a minimum of <strong>RM88 worth</strong> of participating
+                  AptamilTM KID products
+                </>
+              ),
+              termsText: true,
+            },
+            {
+              image: loginSlider3,
+              text: (
+                <>
+                  Complete a simple mini-game and stand a chance to win
+                  <strong>GRAND PRIZES!</strong>
+                </>
+              ),
+              footNote: true,
+            },
+          ]}
+          onClose={handleCloseModal}
+        />
+      )}
       <div className="absolute flex justify-between w-full">
         <Header />
       </div>
@@ -45,13 +95,13 @@ const Login: React.FC = () => {
                   phonePrefix: true,
                 },
               ],
-              btnText: 'Login',
               authFormClass: 'auth-form',
             }}
             additionalFields={{
               path: location.pathname,
               params: location.search,
             }}
+            buttonText="Login"
           />
         </div>
         <div className="footer-div">
