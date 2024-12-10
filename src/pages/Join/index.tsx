@@ -48,7 +48,7 @@ const Join: React.FC = () => {
           <div className="absolute z-40 w-full mx-auto text-center top-[140px]">
             <ButtonComponent
               buttonText="LET'S START SSS-LIDING!"
-              buttonType="submit"
+              buttonType="button"
               buttonClass="button-component"
               navigateTo='/home'
             />

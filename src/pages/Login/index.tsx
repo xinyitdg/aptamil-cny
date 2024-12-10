@@ -30,7 +30,10 @@ const Login: React.FC = () => {
                 <>
                   Welcome! Let's Sss-lide your way into
                   <strong> Strength and Smartness </strong>
-                  this Chinese New Year with <strong>AptamilTM KID!</strong>
+                  this Chinese New Year with{' '}
+                  <strong>
+                    Aptamil<sup>TM</sup> KID!
+                  </strong>
                 </>
               ),
               termsText: true,
@@ -41,7 +44,7 @@ const Login: React.FC = () => {
                 <>
                   Get <strong>Guaranteed Rewards*</strong> up to <strong>RM88.88</strong>{' '}
                   by purchasing a minimum of <strong>RM88 worth</strong> of participating
-                  AptamilTM KID products
+                  Aptamil<sup>TM</sup> KID products
                 </>
               ),
               termsText: true,

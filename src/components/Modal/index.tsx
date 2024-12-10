@@ -1,4 +1,7 @@
 import React from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 interface ModalProps {
   logo: string;
   title: string;
@@ -6,9 +9,27 @@ interface ModalProps {
   buttonText: string;
   buttonClass: string;
   onClose: () => void;
+  navigateTo?: string;
 }
 
-function Modal({ logo, title, body, buttonText, buttonClass, onClose }: ModalProps) {
+function Modal({
+  logo,
+  title,
+  body,
+  buttonText,
+  buttonClass,
+  onClose,
+  navigateTo,
+}: ModalProps) {
+  const navigate = useNavigate();
+
+  const handleClick = () => {
+    onClose();
+    if (navigateTo) {
+      navigate(navigateTo);
+    }
+  };
+
   return (
     <div className="fixed z-10 inset-0 overflow-y-auto bg-[rgba(0,0,0,0.5)]">
       <div className="flex items-center justify-center min-h-screen">
@@ -21,7 +42,7 @@ function Modal({ logo, title, body, buttonText, buttonClass, onClose }: ModalPro
           <div className="flex justify-center mt-6">
             <button
               className={`${buttonClass} text-white font-bold py-2 px-4 rounded-[36px] w-full`}
-              onClick={onClose}
+              onClick={handleClick}
             >
               {buttonText}
             </button>

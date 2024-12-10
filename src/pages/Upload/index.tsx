@@ -102,7 +102,7 @@ const Upload: React.FC = () => {
   return (
     <div id="page" className="overflow-y-auto">
       <div className="absolute flex justify-between w-full">
-        <Header />
+        <Header previous={true} />
       </div>
       <div className="relative z-[2]">
         <img src={cnyTop} alt="gif" className="w-full h-full" />
