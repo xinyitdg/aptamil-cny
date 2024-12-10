@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import cnyBody from '../../assets/images/cny-body.webp';
 import cnyTop from '../../assets/images/cny-top.png';
@@ -13,6 +13,7 @@ import LoginModal from '../../components/LoginModal';
 
 const Login: React.FC = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleCloseModal = () => {
@@ -81,9 +82,7 @@ const Login: React.FC = () => {
           <p className="heading-1 py-2.5 px-[50px]">Log In</p>
           <p className="border-b-[3px] border-[#FFDB20] w-[192px] mx-auto"></p>
           <p className="heading-2 p-4 text-center leading-none">
-            Key in your registered mobile
-            <br />
-            number to login
+            Key in your registered mobile number to login
           </p>
           <AuthForm
             formConfig={{
@@ -94,7 +93,7 @@ const Login: React.FC = () => {
                   placeholder: 'Phone Number',
                   inputGroupClass: 'input-group',
                   inputDivClass: 'input-div',
-                  inputClass: 'input-field',
+                  inputClass: 'input-field text-center',
                   phonePrefix: true,
                 },
               ],
@@ -109,7 +108,11 @@ const Login: React.FC = () => {
         </div>
         <div className="footer-div">
           <p className="text-white text-center relative z-20 pt-[195px]">
-            Not registered yet? Sign up
+            Not registered yet?
+            <button
+              onClick={() => navigate('/register')}
+              className="underline ml-1"
+            >Sign up</button>
           </p>
         </div>
       </div>
