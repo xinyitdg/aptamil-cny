@@ -10,9 +10,10 @@ export interface UploadImage {
     key: string;
   };
 }
-
 export interface CreateEntry {
-  status?: string;
+  data: {
+    status?: string;
+  };
 }
 
 export interface Register {
@@ -20,7 +21,7 @@ export interface Register {
     success: boolean;
     token: string;
     message: string;
-  };
+  }
 }
 
 export interface RegisterOTP {
@@ -39,22 +40,28 @@ export interface RBRegisterOTP {
 }
 
 export interface Token {
-  success: boolean;
+  data: {
+    success: boolean;
+  }
 }
 
 export interface VerifyToken {
   data: {
     success: boolean;
     token: string;
-  };
+  }
 }
 
 export interface OTP {
-  message: string;
+  data: {
+    message: string;
+  }
 }
 
 export interface Login {
-  token: string;
+  data: {
+    token: string;
+  }
 }
 
 export interface LoginOTP {
@@ -65,11 +72,15 @@ export interface LoginOTP {
 }
 
 export interface LoginPhone {
-  token: string;
+  data: {
+    token: string;
+  }
 }
 
 export interface SetPass {
-  success: boolean;
+  data: {
+    success: boolean;
+  }
 }
 
 export interface ResetPass {
@@ -90,17 +101,21 @@ export interface CheckQR {
   };
 }
 
+
 export interface CheckUser {
-  identity: string;
+  data: {
+    identity: string;
+  }
 }
 
 export interface RegisterData {
   email: string;
-  phone: number;
-  password: string;
+  phone: string;
+  password?: string;
   name?: string;
   // type: TokenType;
   referralCode?: string;
+  companyId?: string;
 }
 
 export interface RegisterOTPData {
@@ -134,7 +149,7 @@ export interface TokenData {
   tokenAction: string;
   tokenType: string;
   recipient: string;
-  campaignId: string;
+  campaignId?: string;
 }
 
 export interface VerifyTokenData {
@@ -192,4 +207,17 @@ export interface CheckUserData {
   phone?: string;
   type?: string;
   campaignId?: string;
+}
+
+export interface getUserDetailsOutput {
+  data: {
+    addressInfo: [],
+    personalInfo: {
+      name: string;
+      phone: string;
+      email: string;
+      totalUnitsBalance: number;
+    },
+    success: boolean
+  }
 }
