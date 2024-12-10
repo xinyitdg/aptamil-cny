@@ -1,7 +1,5 @@
 import React, { FormEvent, ReactNode, useEffect, useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-
 import ButtonComponent from '../ButtonComponent';
 import InputField from '../InputField';
 
@@ -37,6 +35,7 @@ interface AuthFormProps {
     body: string | React.ReactNode;
     modalButtonText: string;
     modalButtonClass: string;
+    navigateTo?: string;
   };
 }
 
@@ -63,6 +62,7 @@ function AuthForm({
   const [errors, setErrors] = useState<FormErrors>({});
   const [values, setValues] = useState<FormValues>({});
   const [isFormValid, setIsFormValid] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -125,14 +125,13 @@ function AuthForm({
         ...additionalFields,
       };
 
-      // Execute the custom button function if provided
       if (buttonFunction) {
         await buttonFunction();
       }
 
-      // Handle navigation if specified
-      if (navigateTo) {
-        navigate(navigateTo);
+      // Show modal if it exists
+      if (modal) {
+        setShowModal(true);
       }
 
       setLoading(false);
@@ -140,6 +139,14 @@ function AuthForm({
       alert('Error: Failed to submit');
       console.error(error);
       setLoading(false);
+    }
+  };
+
+  const handleModalClose = () => {
+    setShowModal(false);
+    // Navigate after modal closes if navigateTo is specified in modal
+    if (modal?.navigateTo) {
+      navigate(modal.navigateTo);
     }
   };
 
@@ -178,8 +185,11 @@ function AuthForm({
           disabled={!isFormValid}
           buttonClass={buttonClass || 'button-component'}
           buttonFunction={buttonFunction}
-          navigateTo={navigateTo}
-          modal={modal}
+          modal={modal ? {
+            ...modal,
+            show: showModal,
+            onClose: handleModalClose
+          } : undefined}
         />
       </div>
     </form>

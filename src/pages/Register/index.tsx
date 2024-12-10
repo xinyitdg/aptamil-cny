@@ -79,13 +79,16 @@ const Register: React.FC = () => {
               title: 'Successful!',
               body: (
                 <>
-                  Welcome! You're now part of our AptamilTM KID Mini Program
+                  Welcome! You're now part of our <br />
+                  Aptamil<sup>TM</sup> KID Mini Program
+                  <br />
                   <br />
                   Stay tuned for more exciting rewards!
                 </>
               ),
               modalButtonText: 'OK',
               modalButtonClass: 'bg-[#02BC7D] hover:bg-green-700',
+              navigateTo:'/join',
             }}
           >
             <div className="mb-4 w-full">
@@ -114,7 +117,7 @@ const Register: React.FC = () => {
                 label={
                   <div>
                     <span>
-                      I hereby consent to receive AptamilTM KID information via
+                      I hereby consent to receive Aptamil<sup>TM</sup> KID information via
                       mail/SMS/phone/WhatsApp/Email. Collected data can also be used for
                       customer service purpose.
                     </span>

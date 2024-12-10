@@ -39,7 +39,7 @@ const Home: React.FC = () => {
               <div className="z-40 w-full mx-auto text-center top-[140px]">
                 <ButtonComponent
                   buttonText="GUARANTEED REWARDS"
-                  buttonType="submit"
+                  buttonType="button"
                   buttonClass="blue-button"
                 />
               </div>
@@ -48,7 +48,7 @@ const Home: React.FC = () => {
               <div className="z-40 w-full mx-auto text-center top-[140px]">
                 <ButtonComponent
                   buttonText="GRAND PRIZES"
-                  buttonType="submit"
+                  buttonType="button"
                   buttonClass="blue-button"
                 />
               </div>
@@ -57,7 +57,7 @@ const Home: React.FC = () => {
           <div className="relative z-40 w-full mx-auto text-center my-3">
             <ButtonComponent
               buttonText="UPLOAD RECEIPT"
-              buttonType="submit"
+              buttonType="button"
               buttonClass="button-component"
               navigateTo="/upload"
             />
@@ -67,7 +67,7 @@ const Home: React.FC = () => {
               <div className="z-40 w-full mx-auto text-center top-[140px]">
                 <ButtonComponent
                   buttonText="TRACK MY SUBMISSION"
-                  buttonType="submit"
+                  buttonType="button"
                   buttonClass="home-button"
                 />
                 <p className="text-white underline mt-2">Terms & Conditions</p>
@@ -77,7 +77,7 @@ const Home: React.FC = () => {
               <div className="z-40 w-full mx-auto text-center top-[140px]">
                 <ButtonComponent
                   buttonText="HOW TO JOIN"
-                  buttonType="submit"
+                  buttonType="button"
                   buttonClass="home-button"
                 />
                 <p className="text-white underline mt-2">Privacy Policy</p>
